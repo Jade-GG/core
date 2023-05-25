@@ -31,6 +31,7 @@
                 password: this.password,
                 go: this.go,
                 logout: this.logout,
+                checkEmailAvailability: this.checkEmailAvailability,
             })
         },
 
