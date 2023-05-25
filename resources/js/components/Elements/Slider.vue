@@ -1,6 +1,6 @@
 <script>
-    import { useElementHover, useIntervalFn, useEventListener, useThrottleFn } from '@vueuse/core'
-    
+    import { useElementHover, useIntervalFn } from '@vueuse/core'
+
     export default {
         render() {
             return this.$scopedSlots.default({
@@ -28,6 +28,10 @@
                 type: Boolean,
                 default: false,
             },
+            bounce: {
+                type: Boolean,
+                default: false,
+            },
             stopOnHover: {
                 type: Boolean,
                 default: true,
@@ -40,35 +44,30 @@
                 showRight: false,
                 mounted: false,
                 hover: false,
+                direction: 1,
                 pause: ()=>{},
                 resume: ()=>{}
             }
         },
         mounted() {
-            useEventListener('scroll', useThrottleFn(this.scroll, 150, true, true), {passive: true})
-            this.$nextTick(() => {
-                this.slider.dispatchEvent(new CustomEvent('scroll'))
-                this.mounted = true
+            this.slider.addEventListener('scroll', this.scroll)
+            this.slider.dispatchEvent(new CustomEvent('scroll'))
+            this.mounted = true
 
-                this.initAutoPlay()
-            })
-        },
-        methods: {
-            initAutoPlay() {
-                if (!this.autoplay) {
-                    return;
-                }
+            if (this.stopOnHover){
+                this.hover = useElementHover(this.slider);
+            }
 
-                const { pause, resume } = useIntervalFn(this.autoScroll, this.interval)
+            if (this.autoplay) {
+                let { pause, resume } = useIntervalFn(this.autoScroll, this.interval)
                 this.pause = pause
                 this.resume = resume
-
-                if (!this.stopOnHover){
-                    return;
-                }
-                this.hover = useElementHover(this.slider);
-            },
-
+            }
+        },
+        beforeDestroy() {
+            this.slider.removeEventListener('scroll', this.scroll)
+        },
+        methods: {
             scroll(event) {
                 this.position  = this.vertical ? event.currentTarget.scrollTop : event.currentTarget.scrollLeft
                 this.showLeft = this.position
@@ -76,9 +75,17 @@
             },
 
             autoScroll() {
-                let next = this.currentSlide + 1
-                if (next >= this.slidesTotal) {
-                    next = 0
+                if(this.slidesTotal == 1) {
+                    return
+                }
+                let next = this.currentSlide + this.direction
+                if (next >= this.slidesTotal || next < 0) {
+                    if (this.bounce) {
+                        this.direction = -this.direction
+                        next = this.currentSlide + this.direction
+                    } else {
+                        next = 0
+                    }
                 }
                 this.navigate(next)
             },
