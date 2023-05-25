@@ -73,7 +73,6 @@
                 .then((response) => {
                     if (this.emailAvailable = response.data) {
                         this.$root.guestEmail = this.email
-                        this.$root.checkout.step = 2
                     } else {
                         this.$nextTick(function() {
                             this.$scopedSlots.default()[0].context.$refs.password.focus()
