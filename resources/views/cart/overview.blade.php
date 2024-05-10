@@ -27,6 +27,18 @@
                                     <button v-on:click="remove(item)" v-bind:dusk="'item-delete-' + index" class="cursor-pointer hover:underline" title="@lang('Remove')">
                                         @lang('Remove')
                                     </button>
+
+                                    <div v-if="item.backorder_count" class="flex gap-2">
+                                        <x-heroicon-o-exclamation-circle class="mt-px w-5" />
+                                        <span>
+                                            <template v-if="item.backorder_count == item.qty">
+                                                @lang(':count of the requested quantity will be backordered', ['count' => '@{{ item.backorder_count }}'])
+                                            </template>
+                                            <template v-else>
+                                                @lang('This product will be backordered')
+                                            </template>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flex items-center justify-between gap-5">
