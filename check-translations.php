@@ -5,18 +5,18 @@ $translationKeys = [];
 $functions = ['@lang', '__'];
 $stringPattern =
     "[^\w]" .                                       // Must not have an alphanum before real method
-    '(' . implode('|', $functions) . ')' .              // Must start with one of the functions
+    '(' . implode('|', $functions) . ')' .          // Must start with one of the functions
     "\(\s*" .                                       // Match opening parenthesis
     "(?P<quote>['\"])" .                            // Match " or ' and store in {quote}
     "(?P<string>(?:\\\k{quote}|(?!\k{quote}).)*)" . // Match any string that can be {quote} escaped
     "\k{quote}" .                                   // Match " or ' previously matched
-    "\s*[\),]";                                    // Close parentheses or new parameter
+    "\s*[\),]";                                     // Close parentheses or new parameter
 
 $labelPattern =
-    'label=' .                                     // Match `label=`
+    'label=' .                                      // Match `label=`
     "(?P<quote>['\"])" .                            // Match " or ' and store in {quote}
     "(?P<string>(?:\\\k{quote}|(?!\k{quote}).)*)" . // Match any string that can be {quote} escaped
-    "\k{quote}";                                   // Match " or ' previously matched
+    "\k{quote}";                                    // Match " or ' previously matched
 
 $files = [];
 $iterator = new RecursiveDirectoryIterator('resources');
