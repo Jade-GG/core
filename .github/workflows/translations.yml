@@ -16,4 +16,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Check translations
-        uses: jade-gg/check-translations@a99e1f9f34e4aa8b261ef7b928f86e7c05be7647
+        uses: jade-gg/check-translations@a8a1cb274389c3b075f6b1bec59349a09c5ef700
