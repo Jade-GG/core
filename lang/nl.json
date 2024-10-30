@@ -23,6 +23,7 @@
     "Create an account": "Account aanmaken",
     "Credentials": "Gegevens",
     "Description": "Beschrijving",
+    "Email": "Email",
     "Fax": "Fax",
     "Filters": "Filters",
     "Firstname": "Voornaam",
@@ -94,5 +95,7 @@
     "We will send a confirmation of your order to": "Wij zullen een confirmatie sturen naar",
     "Wishlist": "Wensenlijst",
     "Yes": "Ja",
-    "You don't have anything in your cart.": "Deze winkelwagen is leeg."
+    "You don't have anything in your cart.": "Deze winkelwagen is leeg.",
+    "You have filtered for:": "Je hebt gefilterd op:",
+    "Your order is currently:": "Je bestelling is op dit moment:"
 }
