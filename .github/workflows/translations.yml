@@ -6,8 +6,6 @@ on:
       - master
       - '*.x'
   pull_request:
-  schedule:
-    - cron: '0 0 * * *'
 
 jobs:
   translations:
@@ -18,4 +16,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Check translations
-        uses: jade-gg/check-translations@314c9f64998d4ee132f4170a5f9707a4c0b52f88
+        uses: jade-gg/check-translations@b38bca589528b0d16c62c17707974a0d00bd13d9
