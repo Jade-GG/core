@@ -4,38 +4,38 @@
 $translationKeys = [];
 $functions = ['@lang', '__'];
 $stringPattern =
-    "[^\w]".                                       // Must not have an alphanum before real method
-    '('.implode('|', $functions).')'.              // Must start with one of the functions
-    "\(\s*".                                       // Match opening parenthesis
-    "(?P<quote>['\"])".                            // Match " or ' and store in {quote}
-    "(?P<string>(?:\\\k{quote}|(?!\k{quote}).)*)". // Match any string that can be {quote} escaped
-    "\k{quote}".                                   // Match " or ' previously matched
+    "[^\w]" .                                       // Must not have an alphanum before real method
+    '(' . implode('|', $functions) . ')' .              // Must start with one of the functions
+    "\(\s*" .                                       // Match opening parenthesis
+    "(?P<quote>['\"])" .                            // Match " or ' and store in {quote}
+    "(?P<string>(?:\\\k{quote}|(?!\k{quote}).)*)" . // Match any string that can be {quote} escaped
+    "\k{quote}" .                                   // Match " or ' previously matched
     "\s*[\),]";                                    // Close parentheses or new parameter
 
 $labelPattern =
-    "label=" .                                     // Match `label=`
-    "(?P<quote>['\"])".                            // Match " or ' and store in {quote}
-    "(?P<string>(?:\\\k{quote}|(?!\k{quote}).)*)". // Match any string that can be {quote} escaped
+    'label=' .                                     // Match `label=`
+    "(?P<quote>['\"])" .                            // Match " or ' and store in {quote}
+    "(?P<string>(?:\\\k{quote}|(?!\k{quote}).)*)" . // Match any string that can be {quote} escaped
     "\k{quote}";                                   // Match " or ' previously matched
 
 $files = [];
 $iterator = new RecursiveDirectoryIterator('resources');
-foreach(new RecursiveIteratorIterator($iterator) as $file) {
-    if(strpos($file , '.blade.php') !== false){
-        $files[] =  $file->getRealPath();
+foreach (new RecursiveIteratorIterator($iterator) as $file) {
+    if (strpos($file, '.blade.php') !== false) {
+        $files[] = $file->getRealPath();
     }
 }
 
 foreach ($files as $file) {
     $contents = file_get_contents($file);
-    if (preg_match_all("/$stringPattern/siU", $contents, $matches)) {
+    if (preg_match_all("/{$stringPattern}/siU", $contents, $matches)) {
         foreach ($matches['string'] as $key) {
             $translationKeys[] = $key;
         }
     }
-    if (preg_match_all("/$labelPattern/siU", $contents, $matches)) {
+    if (preg_match_all("/{$labelPattern}/siU", $contents, $matches)) {
         foreach ($matches['string'] as $key) {
-            if (str_starts_with($key, '@lang(') || str_starts_with($key, '__(') || $key == 'false' || !$key) {
+            if (str_starts_with($key, '@lang(') || str_starts_with($key, '__(') || $key == 'false' || ! $key) {
                 continue;
             }
             $translationKeys[] = $key;
@@ -44,13 +44,13 @@ foreach ($files as $file) {
 }
 
 $translationKeys = array_unique($translationKeys);
-$translations = (array)json_decode(file_get_contents('lang/nl.json'));
+$translations = (array) json_decode(file_get_contents('lang/nl.json'));
 
 $missing = 0;
-foreach($translationKeys as $key) {
+foreach ($translationKeys as $key) {
     if (! array_key_exists($key, $translations)) {
         $missing++;
-        error_log("missing translation: \"$key\"");
+        error_log("missing translation: \"{$key}\"");
     }
 }
 
