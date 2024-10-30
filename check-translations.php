@@ -61,3 +61,5 @@ if ($missing > 0) {
         throw new Exception($missing . ' translations are missing.');
     }
 }
+
+echo('No missing translations found');
