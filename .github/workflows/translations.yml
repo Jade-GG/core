@@ -15,5 +15,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction
+
       - name: Check translations
-        uses: jade-gg/check-translations@a8a1cb274389c3b075f6b1bec59349a09c5ef700
+        uses: jade-gg/laravel-translation-checker@0ecf0ab28c4354483eb82ee3da3a9c0038bb7c13
