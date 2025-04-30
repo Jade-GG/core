@@ -43,7 +43,7 @@ trait DuskTestCaseSetup
 
         Browser::macro('waitUntilIdle', function ($timeout = 120) {
             /** @var Browser $this */
-            $this->waitUntilTrueForDuration('window.app?.$data?.loading !== true && await new Promise((resolve, reject) => window.requestIdleCallback((deadline) => resolve(!deadline.didTimeout), {timeout: 5}))', $timeout); // @phpstan-ignore-line
+            $this->waitUntilTrueForDuration('window.app?.$data?.loading !== true && await new Promise((resolve, reject) => window.requestIdleCallback((deadline) => resolve(!deadline.didTimeout), {timeout: 10}))', $timeout); // @phpstan-ignore-line
 
             return $this;
         });
